@@ -107,16 +107,30 @@ int	main(void)
 	t_token		*tokens;
 	t_pipeline	*pl;
 
-	install_parent_signals();
 	print_intro();
 	while (1)
 	{
+		install_parent_signals();
 		line = _ft_readline();
+
+		/* ctrl-D (EOF): readline zwraca NULL */
 		if (!line)
 		{
 			printf("exit\n");
-			break ;
+			break;
 		}
+
+		/* ctrl-C w prompt: handler ustawił flagę */
+		if (g_signal == SIGINT)
+		{
+			g_signal = 0;
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+			free(line);
+			continue;
+		}
+
 		if (*line)
 			add_history(line);
 		/* ------ LEXER ------ */
@@ -137,6 +151,7 @@ int	main(void)
 		{
 			printf("=== PIPELINE ===\n");
 			print_pipeline(pl);
+			execute_pipeline(pl, &sh);
 			free_pipeline(pl);
 		}
 

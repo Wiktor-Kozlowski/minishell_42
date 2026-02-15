@@ -96,11 +96,6 @@ void	print_intro(void);
 char	*generate_prompt(void);
 char	*_ft_readline(void);
 
-/* === Signals === */
-extern volatile sig_atomic_t	g_signal;
-void	sigint_handler(int signo);
-void	install_parent_signals(void);
-
 /* === Builtins === */
 void	cmd_pwd(void);
 int		cmd_echo(char **argv);
@@ -135,6 +130,36 @@ t_token		*next_cmd_start(t_token *token);
 
 t_redir		*redir_new(t_token_type type, const char *target);
 void		redir_add_back(t_redir **lst, t_redir *new_node);
+
+/* === Shell state === */
+int     sh_init(t_sh *sh, char **envp);
+void    sh_destroy(t_sh *sh);
+
+/* === Env === */
+t_env   *env_from_envp(char **envp);
+void    env_clear(t_env **env);
+char    **env_to_envp(t_env *env);
+void    free_envp(char **envp);
+
+/* === Shell state === */
+int		sh_init(t_sh *sh, char **envp);
+void	sh_destroy(t_sh *sh);
+
+/* === Env === */
+t_env	*env_from_envp(char **envp);
+void	env_clear(t_env **env);
+char	**env_to_envp(t_env *env);
+void	free_envp(char **envp);
+
+/* === Executor === */
+int		execute_pipeline(t_pipeline *pl, t_sh *sh);
+int		apply_redirs(t_redir *r);
+int		status_to_exitcode(int status);
+
+/* === Builtins (docelowo) === */
+int		run_builtin(t_cmd *cmd, t_sh *sh);
+int		is_stateful_builtin(const char *name);
+
 
 /* === Free memory === */
 void		free_pipeline(t_pipeline *pl);
