@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "minishell.h"
 
 /* echo builtin:
    - supports multiple -n flags (e.g., -n -n)

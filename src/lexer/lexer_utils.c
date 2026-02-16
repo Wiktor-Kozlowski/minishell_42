@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <include/minishell.h>
+#include "minishell.h"
 
 /* === pomocnicze: append_piece, read_quoted, read_word === */
 
@@ -39,7 +39,7 @@ int  read_quoted(const char *s, int i, char quote, char **buf)
         i++;
     if (!s[i])
     {
-        fprintf(stderr, "minishell: unclosed quote\n");
+        ft_putstr_fd("minishell: unclosed quote\n", 2);
         return (-1);
     }
     piece = ft_substr(s, start, (size_t)(i - start));

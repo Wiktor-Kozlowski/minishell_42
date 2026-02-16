@@ -10,16 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "minishell.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 
-volatile sig_atomic_t g_signal = 0;
+volatile sig_atomic_t	g_signal;
 
 void    sigint_handler(int signo)
 {
     (void)signo;
-    write(1, "\n", 1);
+	g_signal = SIGINT;
+	write(STDOUT_FILENO, "\n", 1);
     rl_replace_line("", 0);
     rl_on_new_line();
     rl_redisplay();

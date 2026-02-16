@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 
-#include "include/minishell.h"
+#include "minishell.h"
 
 void	fatal_malloc_error(void)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "minishell.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>

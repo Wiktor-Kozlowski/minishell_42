@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "minishell.h"
 
 /* === sprawdza, czy dany typ tokena jest redirekcją (<, >, >>, <<) === */
 int	is_redir_token(t_token_type type)

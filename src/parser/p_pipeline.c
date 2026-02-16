@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "minishell.h"
 
 static int	fill_cmd(t_cmd *cmd, t_token *start, int argc)
 {

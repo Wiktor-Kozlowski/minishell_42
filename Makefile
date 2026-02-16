@@ -16,7 +16,8 @@ LIBFT_DIR       := libft
 LIBFT           := $(LIBFT_DIR)/libft.a
 
 SRC             := \
-	src/main.c \
+	src/prompt/main.c \
+	src/prompt/loop.c  \
 	src/builtins/builtin_cd.c \
 	src/builtins/builtin_echo.c \
 	src/builtins/builtin_env.c \
@@ -27,11 +28,12 @@ SRC             := \
 	src/env/env_init.c \
 	src/env/env_list.c \
 	src/env/env_utils.c \
+	src/env/env_set.c \
+	src/env/env_sh_state.c \
 	src/executor/executor.c \
 	src/executor/pipes.c \
 	src/executor/process.c \
 	src/executor/redirections.c \
-	src/executor/signals.c \
 	src/lexer/lexer.c \
 	src/lexer/lexer_utils.c \
 	src/lexer/tokenizer.c \
@@ -39,6 +41,8 @@ SRC             := \
 	src/parser/p_pipeline.c \
 	src/parser/p_redir.c \
 	src/parser/p_utils.c \
+	src/signals/signals_child.c \
+	src/signals/signals_parent.c \
 	src/utils/free_utils.c \
 	src/utils/ft_error.c \
 	src/utils/ft_split_custom.c \
