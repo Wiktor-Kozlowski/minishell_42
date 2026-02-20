@@ -30,10 +30,12 @@ SRC             := \
 	src/env/env_utils.c \
 	src/env/env_set.c \
 	src/env/env_sh_state.c \
-	src/executor/executor.c \
-	src/executor/pipes.c \
-	src/executor/process.c \
-	src/executor/redirections.c \
+	src/executor/exec_error.c \
+	src/executor/exec_external.c \
+	src/executor/exec_path_utils.c \
+	src/executor/exec_path.c \
+	src/executor/exec_pipeline.c \
+	src/executor/exec_redirs.c \
 	src/lexer/lexer.c \
 	src/lexer/lexer_utils.c \
 	src/lexer/tokenizer.c \

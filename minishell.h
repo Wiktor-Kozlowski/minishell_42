@@ -23,6 +23,8 @@
 # include <ctype.h>
 # include <limits.h>
 # include <signal.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
 
 /* === Readline === */
 # include <readline/readline.h>
@@ -117,8 +119,6 @@ int		read_quoted(const char *s, int i, char quote, char **buf);
 int		read_word(const char *s, int i, char **out);
 
 /* === External commands === */
-char	*find_executable(const char *cmd);
-int		run_external(char **argv);
 int		ft_isspace(int c);
 
 /* === Parser: główne funkcje === */
@@ -155,8 +155,19 @@ int		sh_init(t_sh *sh, char **envp);
 void	sh_destroy(t_sh *sh);
 
 /* === Executor === */
+char	*find_executable(const char *cmd);
+int		run_external(t_sh *sh, char **argv);
 int		execute_pipeline(t_pipeline *pl, t_sh *sh);
-int		apply_redirs(t_redir *r);
+//int		apply_redirs(t_redir *r);
+
+void	exec_err2(const char *cmd, const char *msg);
+int		exec_code_errno(int e);
+int		status_to_code(int st);
+
+/* === Path === */
+int		has_slash(const char *s);
+int		is_exec_file(const char *path);
+char	*search_in_path(const char *cmd);
 
 /* === Builtins (docelowo) === */
 int		run_builtin(t_cmd *cmd, t_sh *sh);
