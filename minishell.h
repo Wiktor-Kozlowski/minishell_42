@@ -102,9 +102,14 @@ char	*ft_readline(void);
 void	run_line(t_sh *sh, char *line);
 
 /* === Builtins === */
-void	cmd_pwd(void);
+int		cmd_pwd(t_sh *sh);
 int		cmd_echo(char **argv);
-int		cmd_exit(void);
+int		cmd_exit(t_sh *sh, char **args);
+int		cmd_export(t_sh *sh, char **args);
+
+/* === Secret exit (easter eggs) === */
+void	print_secret(void);
+void	print_monke(void);
 
 /* === Utils: whitespace === */
 int		skipspace(const char *text, int i);
@@ -148,7 +153,7 @@ void	env_clear(t_env **env);
 
 char	**env_to_envp(t_env *env);
 
-int		is_valid_env_key(const char *s);
+int		env_is_valid_key(const char *s);
 
 /* === Shell state === */
 int		sh_init(t_sh *sh, char **envp);

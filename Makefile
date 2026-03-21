@@ -18,6 +18,8 @@ LIBFT           := $(LIBFT_DIR)/libft.a
 SRC             := \
 	src/prompt/main.c \
 	src/prompt/loop.c  \
+	src/builtins/builtin_dispatch.c \
+	src/builtins/builtin_utils.c \
 	src/builtins/builtin_cd.c \
 	src/builtins/builtin_echo.c \
 	src/builtins/builtin_env.c \

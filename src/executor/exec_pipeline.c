@@ -47,11 +47,7 @@ static void	child_run(t_pipeline *pl, t_sh *sh, int i, int (*p)[2])
 //	if (apply_redirs(pl->cmds[i].redirs))
 //		exit(1);
 	if (pl->cmds[i].is_builtin)
-		{
-			write(1, "builtins not implemented yet. :(\n", 33);
-			exit(1);
-		}
-//		exit(run_builtin(&pl->cmds[i], sh));
+		exit(run_builtin(&pl->cmds[i], sh));
 	full = find_executable(pl->cmds[i].argv[0]);
 	if (!full)
 		return (exec_err2(pl->cmds[i].argv[0], "command not found"), exit(127));
@@ -89,6 +85,13 @@ int	execute_pipeline(t_pipeline *pl, t_sh *sh)
 	int		(*p)[2];
 	pid_t	*pids;
 
+	if (pl->cmd_count == 1 && pl->cmds[0].is_builtin
+		&& is_stateful_builtin(pl->cmds[0].argv[0]))
+	{
+		/* Stateful builtins must run in the parent to affect shell state. */
+		sh->last_status = run_builtin(&pl->cmds[0], sh);
+		return (sh->last_status);
+	}
 	pn = pl->cmd_count - 1;
 	p = malloc(sizeof(int [2]) * pn);
 	pids = malloc(sizeof(pid_t) * pl->cmd_count);

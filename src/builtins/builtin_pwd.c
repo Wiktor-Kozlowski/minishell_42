@@ -12,12 +12,25 @@
 
 #include "minishell.h"
 
-void    cmd_pwd(void)
+int	cmd_pwd(t_sh *sh)
 {
-    char    path[PATH_MAX];
+	char	*cwd;
+	char	*pwd;
 
-    if (getcwd(path, sizeof(path)) != NULL)
-        printf("%s\n", path);
-    else
-        perror("pwd");
+	/* fallback to PWD if getcwd fails (e.g., removed dir). */
+	cwd = getcwd(NULL, 0);
+	if (cwd)
+	{
+		printf("%s\n", cwd);
+		free(cwd);
+		return (0);
+	}
+	pwd = env_get(sh ? sh->env : NULL, "PWD");
+	if (pwd)
+	{
+		printf("%s\n", pwd);
+		return (0);
+	}
+	perror("pwd");
+	return (1);
 }
