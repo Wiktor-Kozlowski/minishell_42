@@ -38,7 +38,6 @@ SRC             := \
 	src/executor/exec_path.c \
 	src/executor/exec_pipeline.c \
 	src/executor/exec_redirs.c \
-	src/lexer/lexer.c \
 	src/lexer/lexer_utils.c \
 	src/lexer/tokenizer.c \
 	src/parser/ast_builder.c \
