@@ -106,6 +106,8 @@ int		cmd_pwd(t_sh *sh);
 int		cmd_echo(char **argv);
 int		cmd_exit(t_sh *sh, char **args);
 int		cmd_export(t_sh *sh, char **args);
+int		cmd_unset(t_sh *sh, char **args);
+int		cmd_cd(t_sh *sh, char **args);
 
 /* === Secret exit (easter eggs) === */
 void	print_secret(void);
@@ -177,6 +179,7 @@ char	*search_in_path(const char *cmd);
 /* === Builtins (docelowo) === */
 int		run_builtin(t_cmd *cmd, t_sh *sh);
 int		is_stateful_builtin(const char *name);
+int 	cmd_env(t_env *env, char **args);
 
 
 /* === Free memory === */

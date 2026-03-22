@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/21 00:00:00 by wkozlows          #+#    #+#             */
-/*   Updated: 2026/03/21 19:01:48 by marvin           ###   ########.fr       */
+/*   Updated: 2026/03/22 12:12:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,11 @@ int	run_builtin(t_cmd *cmd, t_sh *sh)
 		return (cmd_exit(sh, cmd->argv));
 	if (streq(cmd->argv[0], "export"))
 		return (cmd_export(sh, cmd->argv));
-	if (streq(cmd->argv[0], "cd")
-		|| streq(cmd->argv[0], "unset")
-		|| streq(cmd->argv[0], "env"))
-	{
-		ft_putstr_fd("minishell: builtin not implemented yet\n", 2);
-		return (1);
-	}
+	if (streq(cmd->argv[0], "env"))
+		return (cmd_env(sh->env, cmd->argv));
+	if (streq(cmd->argv[0], "unset"))
+		return (cmd_unset(sh, cmd->argv));
+	if (streq(cmd->argv[0], "cd"))
+		return (cmd_cd(sh, cmd->argv));
 	return (1);
 }
