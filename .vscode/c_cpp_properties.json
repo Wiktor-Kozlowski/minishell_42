@@ -1,20 +1,25 @@
 {
+  "version": 4,
+  "enableConfigurationSquiggles": true,
   "configurations": [
     {
-      "name": "WSL-Ubuntu",
-      "includePath": [
-        "$/home/wkozlows/minishell/minishell_42/**"
-      ],
+      "name": "Linux",
       "compilerPath": "/usr/bin/gcc",
-      "cStandard": "c11",
-      "cppStandard": "c++17",
       "intelliSenseMode": "linux-gcc-x64",
-      "compilerArgs": [
-        "-Wall",
-        "-Wextra",
-        "-Werror"
-      ]
+      "cStandard": "c17",
+      "defines": [],
+      "includePath": [
+        "${workspaceFolder}",
+        "${workspaceFolder}/libft",
+        "${workspaceFolder}/**"
+      ],
+      "browse": {
+        "path": [
+          "${workspaceFolder}",
+          "${workspaceFolder}/libft"
+        ],
+        "limitSymbolsToIncludedHeaders": true
+      }
     }
-  ],
-  "version": 4
+  ]
 }
