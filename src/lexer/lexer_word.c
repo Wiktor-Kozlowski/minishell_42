@@ -6,7 +6,7 @@
 /*   By: wkozlows <wkozlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 21:21:43 by wkozlows          #+#    #+#             */
-/*   Updated: 2026/03/25 00:08:14 by wkozlows         ###   ########.fr       */
+/*   Updated: 2026/03/25 19:12:05 by wkozlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static int	read_plain_chunk(const char *s, int i, char **buf, t_sh *sh)
 {
 	int	start;
 
-	while (s[i] && !ft_isspace((unsigned char)s[i]) && !ft_strchr("|<>\"'", s[i]))
+	while (s[i] && !ft_isspace((unsigned char)s[i]) && !ft_strchr("|<>\"'",
+			s[i]))
 	{
 		if (s[i] == '$')
 		{
@@ -79,8 +80,8 @@ static int	read_plain_chunk(const char *s, int i, char **buf, t_sh *sh)
 			continue ;
 		}
 		start = i;
-		while (s[i] && !ft_isspace((unsigned char)s[i])
-			&& !ft_strchr("|<>\"'$", s[i]))
+		while (s[i] && !ft_isspace((unsigned char)s[i]) && !ft_strchr("|<>\"'$",
+				s[i]))
 			i++;
 		if (append_segment(s, start, i, buf) < 0)
 			return (-1);
@@ -90,7 +91,7 @@ static int	read_plain_chunk(const char *s, int i, char **buf, t_sh *sh)
 
 int	read_word(const char *s, int i, char **out, t_sh *sh)
 {
-	char	*buf;
+	char *buf;
 
 	buf = NULL;
 	while (s[i] && !ft_isspace((unsigned char)s[i]) && !ft_strchr("|<>", s[i]))

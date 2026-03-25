@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   p_pipeline.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wkozlows <wiktor292929@gmail.com>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: wkozlows <wiktor292929@gmail.com>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2026/02/09 03:51:58 by wkozlows          #+#    #+#             */
 /*   Updated: 2026/02/09 03:51:58 by wkozlows         ###   ########.fr       */
 /*                                                                            */
@@ -12,12 +15,13 @@
 
 #include "minishell.h"
 
+
 static int	fill_cmd(t_cmd *cmd, t_token *start, int argc)
 {
 	t_token *t;
 	t_token *redir_token;
 	t_redir *r_node;
-	int	i;
+	int i;
 
 	cmd->argv = malloc(sizeof(char *) * (argc + 1));
 	if (!cmd->argv)
@@ -29,7 +33,7 @@ static int	fill_cmd(t_cmd *cmd, t_token *start, int argc)
 	while (t)
 	{
 		if (t->type == T_PIPE)
-			break;
+			break ;
 		if (is_redir_token(t->type))
 		{
 			redir_token = t;

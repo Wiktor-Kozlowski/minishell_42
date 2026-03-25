@@ -56,7 +56,7 @@ void	run_line(t_sh *sh, char *line)
 
 	if (*line)
 		add_history(line);
-	tokens = tokenize(line);
+	tokens = tokenizer(line, sh);
 	if (!tokens)
 		return ;
 	pl = cr_pipeline(tokens);

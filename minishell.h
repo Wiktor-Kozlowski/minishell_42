@@ -13,6 +13,11 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include <limits.h>
+#ifndef PATH_MAX
+#define PATH_MAX 4096
+#endif
+
 /* === Standard libraries === */
 # include <stdio.h>
 # include <stdlib.h>
@@ -117,13 +122,16 @@ void	print_monke(void);
 int		skipspace(const char *text, int i);
 
 /* === Tokens / Lexer === */
-t_token	*token_new(t_token_type type, const char *value);
-t_token	*tokenize(const char *line);
+t_token *tokenizer(const char *line, t_sh *sh);
+t_token *token_new(t_token_type type, const char *value);
 
 /* === Lexer: pomocnicze funkcje === */
-int		append_piece(char **buf, const char *piece);
-int		read_quoted(const char *s, int i, char quote, char **buf);
-int		read_word(const char *s, int i, char **out);
+int append_piece(char **buf, const char *piece);
+int read_word(const char *s, int i, char **out, t_sh *sh);
+int expand_dollar(const char *s, int *i, char **buf, t_sh *sh);
+int is_var_start(char c);
+int is_var_char(char c);
+int append_char(char **buf, char c);
 
 /* === External commands === */
 int		ft_isspace(int c);

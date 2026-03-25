@@ -40,6 +40,9 @@ SRC             := \
 	src/executor/exec_redirs.c \
 	src/lexer/lexer_utils.c \
 	src/lexer/tokenizer.c \
+	src/lexer/lexer_word.c \
+	src/lexer/expand_utils.c \
+	src/lexer/expand_dollar.c \
 	src/parser/ast_builder.c \
 	src/parser/p_pipeline.c \
 	src/parser/p_redir.c \

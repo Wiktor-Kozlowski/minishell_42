@@ -2,13 +2,17 @@
   "makefile.configureOnOpen": false,
 
   "[c]": {
-    "editor.defaultFormatter": "keyhr.42-c-format",
+    "editor.defaultFormatter": "ms-vscode.cpptools",
     "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modificationsIfAvailable",
     "editor.insertSpaces": false,
     "editor.tabSize": 4,
     "editor.detectIndentation": false,
     "editor.rulers": [80]
   },
+
+  "C_Cpp.formatting": "clangFormat",
+  "C_Cpp.clang_format_style": "file",
 
   "files.associations": {
     "*.h": "c"
