@@ -1,7 +1,8 @@
-1.env
-2.cd 
 
-4.Handle environment variables ($ followed by a sequence of characters).
+2.cd
+
+
+
 5.Implement redirections (<, >, >>)
 6.Implement the here-doc (<<)
 6.token Token_VAR
