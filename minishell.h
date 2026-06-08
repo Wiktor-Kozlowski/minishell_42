@@ -138,6 +138,7 @@ int		ft_isspace(int c);
 
 /* === Parser: główne funkcje === */
 t_pipeline	*cr_pipeline(t_token *tokens);
+int apply_redirs(t_redir *redirs);
 
 /* === Parser: pomocnicze funkcje do pipeline === */
 int			count_commands(t_token *tok);
@@ -170,7 +171,7 @@ int		sh_init(t_sh *sh, char **envp);
 void	sh_destroy(t_sh *sh);
 
 /* === Executor === */
-char	*find_executable(const char *cmd);
+char	*find_executable(t_env *env, const char *cmd);
 int		run_external(t_sh *sh, char **argv);
 int		execute_pipeline(t_pipeline *pl, t_sh *sh);
 //int		apply_redirs(t_redir *r);
@@ -182,7 +183,7 @@ int		status_to_code(int st);
 /* === Path === */
 int		has_slash(const char *s);
 int		is_exec_file(const char *path);
-char	*search_in_path(const char *cmd);
+char	*search_in_path(t_env *env, const char *cmd);
 
 /* === Builtins (docelowo) === */
 int		run_builtin(t_cmd *cmd, t_sh *sh);

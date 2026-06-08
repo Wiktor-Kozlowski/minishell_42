@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*find_executable(const char *cmd)
+char	*find_executable(t_env *env, const char *cmd)
 {
 	if (!cmd || !*cmd)
 		return (NULL);
@@ -22,5 +22,5 @@ char	*find_executable(const char *cmd)
 			return (ft_strdup(cmd));
 		return (NULL);
 	}
-	return (search_in_path(cmd));
+	return (search_in_path(env, cmd));
 }

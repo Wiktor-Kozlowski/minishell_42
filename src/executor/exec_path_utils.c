@@ -72,14 +72,14 @@ void	free_split(char **arr)
 	free(arr);
 }
 
-char	*search_in_path(const char *cmd)
+char	*search_in_path(t_env *env, const char *cmd)
 {
 	char	*path;
 	char	**dirs;
 	char	*full;
 	size_t	i;
 
-	path = getenv("PATH");
+	path = env_get(env, "PATH");
 	if (!path || !*path)
 		return (NULL);
 	dirs = ft_split(path, ':');

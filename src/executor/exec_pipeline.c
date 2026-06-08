@@ -44,11 +44,11 @@ static void	child_run(t_pipeline *pl, t_sh *sh, int i, int (*p)[2])
 	if (setup_fds(i, pl->cmd_count, p))
 		exit(1);
 	close_pipes(p, pl->cmd_count - 1);
-//	if (apply_redirs(pl->cmds[i].redirs))
-//		exit(1);
+	if (apply_redirs(pl->cmds[i].redirs))
+		exit(1);
 	if (pl->cmds[i].is_builtin)
 		exit(run_builtin(&pl->cmds[i], sh));
-	full = find_executable(pl->cmds[i].argv[0]);
+	full = find_executable(sh->env, pl->cmds[i].argv[0]);
 	if (!full)
 		return (exec_err2(pl->cmds[i].argv[0], "command not found"), exit(127));
 	envp = env_to_envp(sh->env);

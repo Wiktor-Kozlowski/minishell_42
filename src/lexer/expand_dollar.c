@@ -6,7 +6,7 @@
 /*   By: wkozlows <wkozlows@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 21:20:34 by wkozlows          #+#    #+#             */
-/*   Updated: 2026/03/24 22:51:55 by wkozlows         ###   ########.fr       */
+/*   Updated: 2026/03/25 21:32:48 by wkozlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	expand_exit_status(char **buf, t_sh *sh)
 {
-	char*status;
+	char *status;
 	int		ret;
 
 	status = ft_itoa(sh->last_status);

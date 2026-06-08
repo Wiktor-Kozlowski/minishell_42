@@ -18,7 +18,7 @@ static void	child_exec(t_sh *sh, char **argv)
 	char	*full;
 	char	**envp;
 
-	full = find_executable(argv[0]);
+	full = find_executable(sh->env, argv[0]);
 	if (!full)
 		return (exec_err2(argv[0], "command not found"), exit(127));
 	envp = env_to_envp(sh->env);
