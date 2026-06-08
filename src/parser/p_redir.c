@@ -58,6 +58,7 @@ t_redir	*redir_new(t_token_type type, const char *target)
 		node->fd = 0;
 	else
 		node->fd = 1;
+	node->heredoc_fd = -1;
 	node->next = NULL;
 	return (node);
 }

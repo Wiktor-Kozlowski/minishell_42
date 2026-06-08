@@ -80,6 +80,7 @@ typedef struct s_redir
 	t_token_type	type;		// jaki rodzaj: <, >, >>, <<
 	char			*target;	// nazwa pliku albo limiter (dla <<)
 	int				fd;			// na jaki fd: zwykle 0 lub 1
+	int				heredoc_fd;
 	struct s_redir	*next;		// następne przekierowanie w tej komendzie
 }	t_redir;
 
@@ -138,7 +139,8 @@ int		ft_isspace(int c);
 
 /* === Parser: główne funkcje === */
 t_pipeline	*cr_pipeline(t_token *tokens);
-int apply_redirs(t_redir *redirs);
+int			apply_redirs(t_redir *redirs);
+int			prepare_heredocs(t_pipeline *pl);
 
 /* === Parser: pomocnicze funkcje do pipeline === */
 int			count_commands(t_token *tok);

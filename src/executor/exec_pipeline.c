@@ -83,8 +83,17 @@ int	execute_pipeline(t_pipeline *pl, t_sh *sh)
 	int		i;
 	int		pn;
 	int		(*p)[2];
+	int		heredoc_status;
 	pid_t	*pids;
 
+	heredoc_status = prepare_heredocs(pl);
+	if (heredoc_status)
+	{
+		if (heredoc_status == 130)
+			g_signal = 0;
+		sh->last_status = heredoc_status;
+		return (sh->last_status);
+	}
 	if (pl->cmd_count == 1 && pl->cmds[0].is_builtin
 		&& is_stateful_builtin(pl->cmds[0].argv[0]))
 	{

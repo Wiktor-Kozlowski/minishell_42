@@ -51,6 +51,8 @@ void	free_redirs(t_redir *r)
 	while (r)
 	{
 		tmp = r->next;
+		if (r->heredoc_fd >= 0)
+			close(r->heredoc_fd);
 		free(r->target);
 		free(r);
 		r = tmp;
