@@ -1,0 +1,6 @@
+minishell
+build/
+libft/*.o
+libft/libft.a
+*.o
+*.d
