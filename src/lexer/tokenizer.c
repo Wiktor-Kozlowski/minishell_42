@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-/* ============ token_new / token_free ============ */
-t_token *token_new(t_token_type type, const char *value) {
-	t_token *tok;
+t_token	*token_new(t_token_type type, const char *value)
+{
+	t_token	*tok;
 
 	tok = (t_token *)malloc(sizeof(t_token));
 	if (!tok)
@@ -27,7 +27,8 @@ t_token *token_new(t_token_type type, const char *value) {
 	return (tok);
 }
 
-static int token_add_back(t_token **tokens, t_token **last, t_token *new_tok) {
+static int	token_add_back(t_token **tokens, t_token **last, t_token *new_tok)
+{
 	if (!new_tok)
 		return (-1);
 	if (!*tokens)
@@ -38,7 +39,8 @@ static int token_add_back(t_token **tokens, t_token **last, t_token *new_tok) {
 	return (0);
 }
 
-static t_token *read_operator_token(const char *line, int *i) {
+static t_token	*read_operator_token(const char *line, int *i)
+{
 	if (line[*i] == '|')
 		return ((*i)++, token_new(T_PIPE, "|"));
 	if (line[*i] == '>' && line[*i + 1] == '>')
@@ -52,10 +54,11 @@ static t_token *read_operator_token(const char *line, int *i) {
 	return (NULL);
 }
 
-static t_token *read_word_token(const char *line, int *i, t_sh *sh) {
-	char *word;
-	t_token *tok;
-	int next;
+static t_token	*read_word_token(const char *line, int *i, t_sh *sh)
+{
+	char	*word;
+	t_token	*tok;
+	int		next;
 
 	word = NULL;
 	next = read_word(line, *i, &word, sh);
@@ -69,21 +72,23 @@ static t_token *read_word_token(const char *line, int *i, t_sh *sh) {
 	return (tok);
 }
 
-t_token *tokenizer(const char *line, t_sh *sh) {
-	t_token *tokens;
-	t_token *last;
-	t_token *new_tok;
-	int i;
+t_token	*tokenizer(const char *line, t_sh *sh)
+{
+	t_token	*tokens;
+	t_token	*last;
+	t_token	*new_tok;
+	int		i;
 
 	if (!line)
 		return (NULL);
 	tokens = NULL;
 	last = NULL;
 	i = 0;
-	while (line[i]) {
+	while (line[i])
+	{
 		i = skipspace(line, i);
 		if (!line[i])
-			break;
+			break ;
 		new_tok = read_operator_token(line, &i);
 		if (!new_tok)
 			new_tok = read_word_token(line, &i, sh);

@@ -31,7 +31,6 @@ int	run_builtin(t_cmd *cmd, t_sh *sh)
 {
 	if (!cmd || !cmd->argv || !cmd->argv[0])
 		return (0);
-	/* Dispatch builtins and return their exit status. */
 	if (streq(cmd->argv[0], "echo"))
 		return (cmd_echo(cmd->argv));
 	if (streq(cmd->argv[0], "pwd"))

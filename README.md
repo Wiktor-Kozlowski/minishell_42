@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by wkozlows.*
+*This project has been created as part of the 42 curriculum by wkozlows & fmarkul.*
 
 # minishell — As beautiful as a shell
 
@@ -80,6 +80,5 @@ line two
 AI (Claude) was used during this project for:
 - **Debugging and code review**: identifying edge cases in signal handling, heredoc flow, and pipe teardown
 - **Behavioral reference**: clarifying how Bash handles specific corner cases (e.g., `$?` after `Ctrl+C`, export output format, unclosed quote detection)
-- **README drafting**: generating the initial structure of this document
 
 All AI-generated suggestions were reviewed, tested, and adapted manually before inclusion in the project.

@@ -14,7 +14,7 @@
 
 static int	expand_exit_status(char **buf, t_sh *sh)
 {
-	char *status;
+	char	*status;
 	int		ret;
 
 	status = ft_itoa(sh->last_status);

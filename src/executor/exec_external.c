@@ -36,7 +36,8 @@ static void	child_exec(t_sh *sh, char **argv)
 	{
 		if (!has_slash(argv[0]))
 			return (exec_err2(argv[0], "command not found"), exit(127));
-		return (exec_err2(argv[0], strerror(errno)), exit(exec_code_errno(errno)));
+		return (exec_err2(argv[0], strerror(errno)),
+			exit(exec_code_errno(errno)));
 	}
 	envp = env_to_envp(sh->env);
 	execve(full, argv, envp);

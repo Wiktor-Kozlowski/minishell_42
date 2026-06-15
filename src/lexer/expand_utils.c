@@ -28,7 +28,7 @@ int	is_var_char(char c)
 
 int	append_char(char **buf, char c)
 {
-	char tmp[2];
+	char	tmp[2];
 
 	tmp[0] = c;
 	tmp[1] = '\0';

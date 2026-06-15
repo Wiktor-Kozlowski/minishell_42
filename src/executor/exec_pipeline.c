@@ -31,7 +31,8 @@ static void	child_run(t_pipeline *pl, t_sh *sh, int i, int (*p)[2])
 	if (!full)
 	{
 		if (!has_slash(pl->cmds[i].argv[0]))
-			return (exec_err2(pl->cmds[i].argv[0], "command not found"), exit(127));
+			return (exec_err2(pl->cmds[i].argv[0], "command not found"),
+				exit(127));
 		exec_err2(pl->cmds[i].argv[0], strerror(errno));
 		exit(exec_code_errno(errno));
 	}

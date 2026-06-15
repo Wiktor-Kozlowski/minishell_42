@@ -91,7 +91,7 @@ static int	read_plain_chunk(const char *s, int i, char **buf, t_sh *sh)
 
 int	read_word(const char *s, int i, char **out, t_sh *sh)
 {
-	char *buf;
+	char	*buf;
 
 	buf = NULL;
 	while (s[i] && !ft_isspace((unsigned char)s[i]) && !ft_strchr("|<>", s[i]))

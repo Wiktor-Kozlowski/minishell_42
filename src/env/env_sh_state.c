@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
 int	sh_init(t_sh *sh, char **envp)
@@ -29,4 +28,3 @@ void	sh_destroy(t_sh *sh)
 		return ;
 	env_clear(&sh->env);
 }
-
