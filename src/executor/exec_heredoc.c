@@ -71,33 +71,18 @@ static int	close_heredoc_tmp(int fd, char *path, char *line, int status)
 	return (status);
 }
 
-static int	write_heredoc_line(int fd, char *line)
+static int	heredoc_loop(int fd, char *path, t_redir *r)
 {
-	if (write(fd, line, ft_strlen(line)) < 0)
-		return (1);
-	if (write(fd, "\n", 1) < 0)
-		return (1);
-	return (0);
-}
-
-int	read_heredoc(t_redir *r)
-{
-	int		fd;
-	char	*path;
 	char	*line;
+	size_t	tlen;
 
-	path = NULL;
-	fd = open_heredoc_tmp(&path);
-	if (fd < 0)
-		return (exec_err2("heredoc", strerror(errno)), 1);
+	tlen = ft_strlen(r->target) + 1;
 	line = readline("> ");
-	while (line)
+	while (line && g_signal != SIGINT
+		&& ft_strncmp(line, r->target, tlen) != 0)
 	{
-		if (g_signal == SIGINT)
-			return (close_heredoc_tmp(fd, path, line, 130));
-		if (ft_strncmp(line, r->target, ft_strlen(r->target) + 1) == 0)
-			break ;
-		if (write_heredoc_line(fd, line))
+		if (write(fd, line, ft_strlen(line)) < 0
+			|| write(fd, "\n", 1) < 0)
 			return (close_heredoc_tmp(fd, path, line,
 					(exec_err2("heredoc", strerror(errno)), 1)));
 		free(line);
@@ -105,7 +90,22 @@ int	read_heredoc(t_redir *r)
 	}
 	if (g_signal == SIGINT)
 		return (close_heredoc_tmp(fd, path, line, 130));
-	free(line);
+	return (free(line), 0);
+}
+
+int	read_heredoc(t_redir *r)
+{
+	int		fd;
+	char	*path;
+	int		ret;
+
+	path = NULL;
+	fd = open_heredoc_tmp(&path);
+	if (fd < 0)
+		return (exec_err2("heredoc", strerror(errno)), 1);
+	ret = heredoc_loop(fd, path, r);
+	if (ret)
+		return (ret);
 	close(fd);
 	r->heredoc_fd = open(path, O_RDONLY);
 	unlink(path);

@@ -12,21 +12,6 @@
 
 #include "minishell.h"
 
-int	ft_isspace(int c)
-{
-	return (c == ' ' || c == '\t' || c == '\n'
-		|| c == '\v' || c == '\f' || c == '\r');
-}
-
-int	skipspace(const char *text, int i)
-{
-	if (!text)
-		return (i);
-	while (text[i] && ft_isspace((unsigned char)text[i]))
-		i++;
-	return (i);
-}
-
 int	append_piece(char **buf, const char *piece)
 {
 	char	*joined;

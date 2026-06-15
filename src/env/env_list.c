@@ -38,6 +38,17 @@ char	*env_get(t_env *env, const char *key)
 	return (n->val);
 }
 
+static void	unlink_env_node(t_env **env, t_env *prev, t_env *cur)
+{
+	if (prev)
+		prev->next = cur->next;
+	else
+		*env = cur->next;
+	free(cur->key);
+	free(cur->val);
+	free(cur);
+}
+
 int	env_unset(t_env **env, const char *key)
 {
 	t_env	*cur;
@@ -53,13 +64,7 @@ int	env_unset(t_env **env, const char *key)
 	{
 		if (ft_strncmp(cur->key, key, klen + 1) == 0)
 		{
-			if (prev)
-				prev->next = cur->next;
-			else
-				*env = cur->next;
-			free(cur->key);
-			free(cur->val);
-			free(cur);
+			unlink_env_node(env, prev, cur);
 			return (0);
 		}
 		prev = cur;

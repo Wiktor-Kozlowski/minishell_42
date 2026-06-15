@@ -14,9 +14,11 @@
 
 static void	child_run(t_pipeline *pl, t_sh *sh, int i, int (*p)[2])
 {
+	char	**argv;
 	char	*full;
 	char	**envp;
 
+	argv = pl->cmds[i].argv;
 	install_child_signals();
 	if (i > 0 && dup2(p[i - 1][0], STDIN_FILENO) < 0)
 		exit(1);
@@ -27,20 +29,15 @@ static void	child_run(t_pipeline *pl, t_sh *sh, int i, int (*p)[2])
 		exit(1);
 	if (pl->cmds[i].is_builtin)
 		exit(run_builtin(&pl->cmds[i], sh));
-	full = find_executable(sh->env, pl->cmds[i].argv[0]);
+	full = find_executable(sh->env, argv[0]);
+	if (!full && !has_slash(argv[0]))
+		return (exec_err2(argv[0], "command not found"), exit(127));
 	if (!full)
-	{
-		if (!has_slash(pl->cmds[i].argv[0]))
-			return (exec_err2(pl->cmds[i].argv[0], "command not found"),
-				exit(127));
-		exec_err2(pl->cmds[i].argv[0], strerror(errno));
-		exit(exec_code_errno(errno));
-	}
+		return (exec_err2(argv[0], strerror(errno)),
+			exit(exec_code_errno(errno)));
 	envp = env_to_envp(sh->env);
-	execve(full, pl->cmds[i].argv, envp);
-	free(full);
-	free_envp(envp);
-	exec_err2(pl->cmds[i].argv[0], strerror(errno));
+	execve(full, argv, envp);
+	exec_err2(argv[0], strerror(errno));
 	exit(exec_code_errno(errno));
 }
 
@@ -100,10 +97,7 @@ int	execute_pipeline(t_pipeline *pl, t_sh *sh)
 		return (sh->last_status);
 	if (pl->cmd_count == 1 && pl->cmds[0].is_builtin
 		&& is_stateful_builtin(pl->cmds[0].argv[0]))
-	{
-		sh->last_status = run_builtin(&pl->cmds[0], sh);
-		return (sh->last_status);
-	}
+		return (sh->last_status = run_builtin(&pl->cmds[0], sh));
 	pn = pl->cmd_count - 1;
 	if (setup_exec(pn, pl->cmd_count, &p, &pids))
 		return (1);
