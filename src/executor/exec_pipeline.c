@@ -1,39 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes.c                                            :+:      :+:    :+:   */
+/*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wkozlows <wiktor292929@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 22:40:26 by wkozlows          #+#    #+#             */
-/*   Updated: 2025/11/13 22:40:26 by wkozlows         ###   ########.fr       */
+/*   Updated: 2026/06/15 00:00:00 by wkozlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
-
-static void	close_pipes(int (*p)[2], int n)
-{
-	int	i;
-
-	i = 0;
-	while (i < n)
-	{
-		close(p[i][0]);
-		close(p[i][1]);
-		i++;
-	}
-}
-
-static int	setup_fds(int i, int n, int (*p)[2])
-{
-	if (i > 0 && dup2(p[i - 1][0], STDIN_FILENO) < 0)
-		return (1);
-	if (i < n - 1 && dup2(p[i][1], STDOUT_FILENO) < 0)
-		return (1);
-	return (0);
-}
 
 static void	child_run(t_pipeline *pl, t_sh *sh, int i, int (*p)[2])
 {
@@ -41,7 +18,9 @@ static void	child_run(t_pipeline *pl, t_sh *sh, int i, int (*p)[2])
 	char	**envp;
 
 	install_child_signals();
-	if (setup_fds(i, pl->cmd_count, p))
+	if (i > 0 && dup2(p[i - 1][0], STDIN_FILENO) < 0)
+		exit(1);
+	if (i < pl->cmd_count - 1 && dup2(p[i][1], STDOUT_FILENO) < 0)
 		exit(1);
 	close_pipes(p, pl->cmd_count - 1);
 	if (apply_redirs(pl->cmds[i].redirs))
@@ -50,13 +29,18 @@ static void	child_run(t_pipeline *pl, t_sh *sh, int i, int (*p)[2])
 		exit(run_builtin(&pl->cmds[i], sh));
 	full = find_executable(sh->env, pl->cmds[i].argv[0]);
 	if (!full)
-		return (exec_err2(pl->cmds[i].argv[0], "command not found"), exit(127));
+	{
+		if (!has_slash(pl->cmds[i].argv[0]))
+			return (exec_err2(pl->cmds[i].argv[0], "command not found"), exit(127));
+		exec_err2(pl->cmds[i].argv[0], strerror(errno));
+		exit(exec_code_errno(errno));
+	}
 	envp = env_to_envp(sh->env);
 	execve(full, pl->cmds[i].argv, envp);
 	free(full);
 	free_envp(envp);
 	exec_err2(pl->cmds[i].argv[0], strerror(errno));
-	exit(126);
+	exit(exec_code_errno(errno));
 }
 
 static int	wait_all(pid_t *pids, int n, pid_t last)
@@ -78,37 +62,50 @@ static int	wait_all(pid_t *pids, int n, pid_t last)
 	return (status_to_code(last_st));
 }
 
+static int	run_heredocs(t_pipeline *pl, t_sh *sh)
+{
+	int	st;
+
+	st = prepare_heredocs(pl);
+	if (st == 130)
+		g_signal = 0;
+	if (st)
+		return (sh->last_status = st, 1);
+	return (0);
+}
+
+static int	setup_exec(int pn, int n, int (**pp)[2], pid_t **ppids)
+{
+	int	i;
+
+	*pp = malloc(sizeof(int [2]) * pn);
+	*ppids = malloc(sizeof(pid_t) * n);
+	if ((!*pp && pn > 0) || !*ppids)
+		return (free(*pp), free(*ppids), 1);
+	i = 0;
+	while (i < pn && pipe((*pp)[i]) == 0)
+		i++;
+	return (0);
+}
+
 int	execute_pipeline(t_pipeline *pl, t_sh *sh)
 {
 	int		i;
 	int		pn;
 	int		(*p)[2];
-	int		heredoc_status;
 	pid_t	*pids;
 
-	heredoc_status = prepare_heredocs(pl);
-	if (heredoc_status)
-	{
-		if (heredoc_status == 130)
-			g_signal = 0;
-		sh->last_status = heredoc_status;
+	if (run_heredocs(pl, sh))
 		return (sh->last_status);
-	}
 	if (pl->cmd_count == 1 && pl->cmds[0].is_builtin
 		&& is_stateful_builtin(pl->cmds[0].argv[0]))
 	{
-		/* Stateful builtins must run in the parent to affect shell state. */
 		sh->last_status = run_builtin(&pl->cmds[0], sh);
 		return (sh->last_status);
 	}
 	pn = pl->cmd_count - 1;
-	p = malloc(sizeof(int [2]) * pn);
-	pids = malloc(sizeof(pid_t) * pl->cmd_count);
-	if ((!p && pn > 0) || !pids)
-		return (free(p), free(pids), 1);
-	i = 0;
-	while (i < pn && pipe(p[i]) == 0)
-		i++;
+	if (setup_exec(pn, pl->cmd_count, &p, &pids))
+		return (1);
 	i = 0;
 	while (i < pl->cmd_count)
 	{

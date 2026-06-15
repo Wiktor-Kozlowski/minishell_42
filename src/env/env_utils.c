@@ -78,7 +78,8 @@ int	env_is_valid_key(const char *s)
 	if (!(ft_isalpha((unsigned char)s[0]) || s[0] == '_'))
 		return (0);
 	i = 1;
-	while (s[i]){
+	while (s[i])
+	{
 		if (!(ft_isalnum((unsigned char)s[i]) || s[i] == '_'))
 			return (0);
 		i++;

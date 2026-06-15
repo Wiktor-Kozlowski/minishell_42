@@ -2,28 +2,24 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   p_pipeline.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: wkozlows <wiktor292929@gmail.com>          +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wkozlows <wiktor292929@gmail.com>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 03:51:58 by wkozlows          #+#    #+#             */
-/*   Updated: 2026/02/09 03:51:58 by wkozlows         ###   ########.fr       */
+/*   Updated: 2026/06/15 00:00:00 by wkozlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 static int	fill_cmd(t_cmd *cmd, t_token *start, int argc)
 {
-	t_token *t;
-	t_token *redir_token;
-	t_redir *r_node;
-	int i;
+	t_token	*t;
+	t_token	*redir_token;
+	t_redir	*r_node;
+	int		i;
 
-	cmd->argv = malloc(sizeof(char *) * (argc + 1));
+	cmd->argv = ft_calloc(argc + 1, sizeof(char *));
 	if (!cmd->argv)
 		return (-1);
 	cmd->redirs = NULL;
@@ -64,14 +60,12 @@ static int	fill_cmd(t_cmd *cmd, t_token *start, int argc)
 
 t_pipeline	*cr_pipeline(t_token *tokens)
 {
-	t_pipeline *pl;
-
-	int cmd_count;
-	int i;
-	int argc;
+	t_pipeline	*pl;
+	int			cmd_count;
+	int			i;
+	int			argc;
 
 	i = 0;
-
 	if (!tokens)
 		return (NULL);
 	cmd_count = count_commands(tokens);
@@ -81,11 +75,7 @@ t_pipeline	*cr_pipeline(t_token *tokens)
 	pl->cmd_count = cmd_count;
 	pl->cmds = ft_calloc(cmd_count, sizeof(t_cmd));
 	if (!pl->cmds)
-	{
-		free(pl);
-		return (NULL);
-	}
-
+		return (free(pl), NULL);
 	while (tokens && i < cmd_count)
 	{
 		argc = count_args(tokens);

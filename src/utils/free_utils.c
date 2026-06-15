@@ -6,14 +6,12 @@
 /*   By: wkozlows <wiktor292929@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 03:52:26 by wkozlows          #+#    #+#             */
-/*   Updated: 2026/02/09 03:52:26 by wkozlows         ###   ########.fr       */
+/*   Updated: 2026/06/15 00:00:00 by wkozlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-/* === zwalnia listę tokenów połączoną przez t_token->next === */
 void	free_tokens(t_token *head)
 {
 	t_token	*next;
@@ -27,7 +25,6 @@ void	free_tokens(t_token *head)
 	}
 }
 
-/* === zwalnia tablicę argv zakończoną NULL-em === */
 void	free_argv(char **argv)
 {
 	size_t	i;
@@ -43,7 +40,6 @@ void	free_argv(char **argv)
 	free(argv);
 }
 
-/* === zwalnia listę przekierowań t_redir === */
 void	free_redirs(t_redir *r)
 {
 	t_redir	*tmp;
@@ -59,7 +55,6 @@ void	free_redirs(t_redir *r)
 	}
 }
 
-/* === zwalnia jedną komendę: **argv + redirs === */
 void	free_cmd(t_cmd *cmd)
 {
 	int	i;
@@ -79,7 +74,6 @@ void	free_cmd(t_cmd *cmd)
 	free_redirs(cmd->redirs);
 }
 
-/* === zwalnia cały pipeline: wszystkie komendy i samą strukturę === */
 void	free_pipeline(t_pipeline *pl)
 {
 	int	i;

@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-/* === liczy ile komend jest w pipeline oddzielonym znakiem '|' === */
 int	count_commands(t_token *tok)
 {
 	int	count;
@@ -29,7 +28,6 @@ int	count_commands(t_token *tok)
 	return (count);
 }
 
-/* === liczy ile argumentów (T_WORD) ma jedna komenda do najbliższego '|' === */
 int	count_args(t_token *tok)
 {
 	int	count;
@@ -39,7 +37,6 @@ int	count_args(t_token *tok)
 	{
 		if (is_redir_token(tok->type))
 		{
-			/* pomijamy token operatora redir oraz kolejny token z nazwą pliku */
 			tok = tok->next;
 			if (tok)
 				tok = tok->next;
@@ -55,7 +52,6 @@ int	count_args(t_token *tok)
 	return (count);
 }
 
-/* === zwraca wskaźnik na pierwszy token kolejnej komendy po znaku '|' === */
 t_token	*next_cmd_start(t_token *token)
 {
 	while (token)
@@ -67,7 +63,6 @@ t_token	*next_cmd_start(t_token *token)
 	return (NULL);
 }
 
-/* === sprawdza, czy nazwa polecenia jest wbudowanym poleceniem powłoki === */
 int	is_builtin_name(const char *name)
 {
 	if (!name)

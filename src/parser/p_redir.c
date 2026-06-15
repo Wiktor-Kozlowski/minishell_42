@@ -6,13 +6,12 @@
 /*   By: wkozlows <wiktor292929@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 03:52:06 by wkozlows          #+#    #+#             */
-/*   Updated: 2026/02/09 03:52:06 by wkozlows         ###   ########.fr       */
+/*   Updated: 2026/06/15 00:00:00 by wkozlows         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* === sprawdza, czy dany typ tokena jest redirekcją (<, >, >>, <<) === */
 int	is_redir_token(t_token_type type)
 {
 	return (type == T_REDIR_IN
@@ -21,7 +20,6 @@ int	is_redir_token(t_token_type type)
 		|| type == T_HEREDOC);
 }
 
-/* === dopisuje nową redirekcję na koniec listy redirów w jednej komendzie === */
 void	redir_add_back(t_redir **lst, t_redir *new_node)
 {
 	t_redir	*tmp;
@@ -39,7 +37,6 @@ void	redir_add_back(t_redir **lst, t_redir *new_node)
 	tmp->next = new_node;
 }
 
-/* === tworzy nowy węzeł redirekcji (typ, target, domyślny fd, next = NULL) === */
 t_redir	*redir_new(t_token_type type, const char *target)
 {
 	t_redir	*node;
@@ -62,22 +59,3 @@ t_redir	*redir_new(t_token_type type, const char *target)
 	node->next = NULL;
 	return (node);
 }
-
-/*
-int is_valid_var(char *c)
-{
-    int i;
-
-    i = 1;
-    if (!ft_isalpha((unsigned char)c[0]) || c[0] == '_')
-        return (0);
-    while (c[i])
-    {
-        if (ft_isalnum((unsigned char)c[i]) || c[i] == '_')
-            i++;
-        else
-            return (0);
-    }
-    return (1);
-}
-*/

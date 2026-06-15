@@ -37,13 +37,13 @@ SRC             := \
 	src/executor/exec_path_utils.c \
 	src/executor/exec_path.c \
 	src/executor/exec_pipeline.c \
+	src/executor/exec_heredoc.c \
 	src/executor/exec_redirs.c \
 	src/lexer/lexer_utils.c \
 	src/lexer/tokenizer.c \
 	src/lexer/lexer_word.c \
 	src/lexer/expand_utils.c \
 	src/lexer/expand_dollar.c \
-	src/parser/ast_builder.c \
 	src/parser/p_pipeline.c \
 	src/parser/p_redir.c \
 	src/parser/p_utils.c \
@@ -51,8 +51,6 @@ SRC             := \
 	src/signals/signals_parent.c \
 	src/utils/free_utils.c \
 	src/utils/ft_error.c \
-	src/utils/ft_split_custom.c \
-	src/utils/ft_strjoin_free.c \
 	src/utils/utils.c
 
 OBJ_DIR         := build
