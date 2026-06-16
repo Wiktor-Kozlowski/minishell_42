@@ -51,5 +51,5 @@ int	main(int argc, char **argv, char **envp)
 	install_parent_signals();
 	shell_loop(&sh);
 	sh_destroy(&sh);
-	return (EXIT_SUCCESS);
+	return (sh.last_status);
 }
