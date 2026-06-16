@@ -44,3 +44,9 @@ int	status_to_code(int st)
 		return (128 + WTERMSIG(st));
 	return (1);
 }
+
+void	exec_err_exit(const char *cmd, int e)
+{
+	exec_err2(cmd, strerror(e));
+	exit(exec_code_errno(e));
+}

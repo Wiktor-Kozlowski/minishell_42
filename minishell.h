@@ -162,6 +162,7 @@ int			run_external(t_sh *sh, char **argv);
 int			execute_pipeline(t_pipeline *pl, t_sh *sh);
 void		close_pipes(int (*p)[2], int n);
 void		exec_err2(const char *cmd, const char *msg);
+void		exec_err_exit(const char *cmd, int e);
 int			exec_code_errno(int e);
 int			status_to_code(int st);
 

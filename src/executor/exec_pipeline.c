@@ -27,18 +27,18 @@ static void	child_run(t_pipeline *pl, t_sh *sh, int i, int (*p)[2])
 	close_pipes(p, pl->cmd_count - 1);
 	if (apply_redirs(pl->cmds[i].redirs))
 		exit(1);
+	if (!argv[0])
+		exit(0);
 	if (pl->cmds[i].is_builtin)
 		exit(run_builtin(&pl->cmds[i], sh));
 	full = find_executable(sh->env, argv[0]);
 	if (!full && !has_slash(argv[0]))
 		return (exec_err2(argv[0], "command not found"), exit(127));
 	if (!full)
-		return (exec_err2(argv[0], strerror(errno)),
-			exit(exec_code_errno(errno)));
+		exec_err_exit(argv[0], errno);
 	envp = env_to_envp(sh->env);
 	execve(full, argv, envp);
-	exec_err2(argv[0], strerror(errno));
-	exit(exec_code_errno(errno));
+	exec_err_exit(argv[0], errno);
 }
 
 static int	wait_all(pid_t *pids, int n, pid_t last)
