@@ -44,7 +44,7 @@ static void	export_set_one(t_sh *sh, char *arg)
 	if (!env_is_valid_key(key))
 	{
 		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-		ft_putstr_fd(key, STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
 		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 	}
 	else
